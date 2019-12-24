@@ -28,7 +28,7 @@ class Paul_Graham_Essays(BasicNewsRecipe): # 继承 BasicNewsRecipe 类的新类
     # 页面内容解析方法
     #///////////////////
     def parse_index(self):
-        tree = ET.parse('/home/ubuntu/Documents/books/Calibre.Recipe/rss.xml')
+        tree = ET.parse('/home/ubuntu/Documents/books/Calibre.Recipe/rss.xml')#此处需修改一下路径
         root = tree.getroot()
         articles = [] # 定义空文章资源数组
         for child in root:
