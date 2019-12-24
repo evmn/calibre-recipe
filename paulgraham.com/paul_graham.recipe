@@ -1,0 +1,40 @@
+# encoding: utf-8
+import xml.etree.ElementTree as ET
+from calibre.web.feeds.recipes import BasicNewsRecipe # 引入 Recipe 基础类
+class Paul_Graham_Essays(BasicNewsRecipe): # 继承 BasicNewsRecipe 类的新类名
+
+    #///////////////////
+    # 设置电子书元数据
+    #///////////////////
+    title = 'Paul Graham: Essays' # 电子书名
+    description = u'Paul Graham\'s Essays' # 电子书简介
+    #cover_url = '' # 电子书封面
+    #masthead_url = '' # 页头图片
+    __author__ = 'Paul Graham' # 作者
+    language = 'en' # 语言
+    encoding = 'utf-8' # 编码
+
+    #///////////////////
+    # 抓取页面内容设置
+    #///////////////////
+    #keep_only_tags = [{ 'class': 'example' }] # 仅保留指定选择器包含的内容
+    no_stylesheets = True # 去除 CSS 样式
+    remove_javascript = True # 去除 JavaScript 脚本
+    auto_cleanup = True # 自动清理 HTML 代码
+    delay = 5 # 抓取页面间隔秒数
+    max_articles_per_feed = 999 # 抓取文章数量
+
+    #///////////////////
+    # 页面内容解析方法
+    #///////////////////
+    def parse_index(self):
+        tree = ET.parse('/home/ubuntu/Documents/books/Calibre.Recipe/rss.xml')
+        root = tree.getroot()
+        articles = [] # 定义空文章资源数组
+        for child in root:
+            title = child.find('title').text
+            url = child.find('link').text
+            a = {'title': title , 'url':url} # 组合标题和链接
+            articles.append(a) # 累加到数组中
+        ans = [(self.title, articles)] # 组成最终的数据结构
+        return ans # 返回可供 Calibre 转换的数据结构
